@@ -18,8 +18,8 @@ import { roundedRect } from '../../common/shape.helper';
   selector: 'g[ngx-charts-y-axis-ticks]',
   template: `
     <svg:g #ticksel>
-      <svg:g *ngFor="let tick of ticks" class="tick" [attr.transform]="transform(tick)">
-        <title>{{ tickFormat(tick) }}</title>
+      <svg:g *ngFor="let tick of ticks; let i = index" class="tick" [attr.transform]="transform(tick)">
+        <title>{{ tickFormat(tick, i) }}</title>
         <svg:text
           stroke-width="0.01"
           [attr.dy]="dy"
@@ -28,7 +28,7 @@ import { roundedRect } from '../../common/shape.helper';
           [attr.text-anchor]="textAnchor"
           [style.font-size]="'12px'"
         >
-          {{ tickTrim(tickFormat(tick)) }}
+          {{ tickTrim(tickFormat(tick, i)) }}
         </svg:text>
       </svg:g>
     </svg:g>
@@ -56,7 +56,7 @@ import { roundedRect } from '../../common/shape.helper';
       </svg:g>
     </svg:g>
 
-    <svg:g *ngFor="let refLine of referenceLines">
+    <svg:g *ngFor="let refLine of referenceLines; let i = index">
       <svg:g *ngIf="showRefLines" [attr.transform]="transform(refLine.value)">
         <svg:line
           class="refline-path gridline-path-horizontal"
@@ -65,7 +65,7 @@ import { roundedRect } from '../../common/shape.helper';
           [attr.transform]="gridLineTransform()"
         />
         <svg:g *ngIf="showRefLabels">
-          <title>{{ tickTrim(tickFormat(refLine.value)) }}</title>
+          <title>{{ tickTrim(tickFormat(refLine.value, i)) }}</title>
           <svg:text
             class="refline-label"
             [attr.dy]="dy"
@@ -111,7 +111,7 @@ export class YAxisTicksComponent implements OnChanges, AfterViewInit {
   y2: any;
   adjustedScale: any;
   transform: (o: any) => string;
-  tickFormat: (o: any) => string;
+  tickFormat: (o: any, index: number) => string;
   ticks: any;
   width: number = 0;
   outerTickSize: number = 6;
