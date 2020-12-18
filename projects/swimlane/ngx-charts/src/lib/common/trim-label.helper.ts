@@ -16,12 +16,8 @@ export function trimLabel(s, max = 16): string {
 }
 
 export function chunkLabel(s, max = 16) {
-  const numChunks = Math.ceil(s.length / max);
-  const chunks = new Array(numChunks);
-
-  for (let i = 0, o = 0; i < numChunks; ++i, o += max) {
-    chunks[i] = s.substr(o, max);
-  }
-
-  return chunks;
+  return s.split(/(\s+)/).reduce((output, item) => {
+    const last = output.pop() || '';
+    return last.length + item.length > max ? [...output, last.trim(), item.trim()] : [...output, last + item];
+  }, []);
 }
