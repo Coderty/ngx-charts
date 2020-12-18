@@ -32,13 +32,9 @@ import { roundedRect } from '../../common/shape.helper';
             {{ tickTrim(tickFormat(tick)) }}
           </ng-container>
           <ng-template #tickMultiLineTemplate>
-            <svg:tspan
-              *ngFor="let chunk of tickChunk(tickFormat(tick)); let i = index"
-              x="0"
-              [attr.dy]="i === 0 ? '0' : '1em'"
-            >
-              {{ chunk }}
-            </svg:tspan>
+            <ng-container *ngFor="let chunk of tickChunk(tickFormat(tick)); let i = index">
+              <svg:tspan x="0" [attr.dy]="i === 0 ? '0' : '1em'">{{ chunk }}</svg:tspan>
+            </ng-container>
           </ng-template>
         </svg:text>
       </svg:g>
